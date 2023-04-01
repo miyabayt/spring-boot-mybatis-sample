@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigtreetc.sample.mybatis.domain.repository.StaffRoleRepository">
+  <resultMap id="BaseResultMap" type="com.bigtreetc.sample.mybatis.domain.model.generated.StaffRole">
+    <result column="staff_role_id" jdbcType="BIGINT" property="id" />
+    <result column="staff_id" jdbcType="BIGINT" property="staffId" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <select id="findAll" parameterType="com.bigtreetc.sample.mybatis.base.domain.dao.MyBatisContext" resultMap="BaseResultMap">
+    select staff_role_id, staff_id, role_code, created_by, created_at, updated_by, updated_at, 
+    version
+    from staff_roles
+    <if test="example != null">
+      <where>
+        <if test="example != null and example.oredCriteria != null">
+          <foreach collection="example.oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+              <trim prefix="(" prefixOverrides="and" suffix=")">
+                <foreach collection="criteria.criteria" item="criterion">
+                  <choose>
+                    <when test="criterion.noValue">
+                      and ${criterion.condition}
+                    </when>
+                    <when test="criterion.singleValue">
+                      and ${criterion.condition} #{criterion.value}
+                    </when>
+                    <when test="criterion.betweenValue">
+                      and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                    </when>
+                    <when test="criterion.listValue">
+                      and ${criterion.condition}
+                      <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                        #{listItem}
+                      </foreach>
+                    </when>
+                  </choose>
+                </foreach>
+              </trim>
+            </if>
+          </foreach>
+        </if>
+      </where>
+    </if>
+    <if test="pageable != null and pageable.isPaged">
+      <if test="pageable.offset != null">
+        limit ${pageable.pageSize} offset ${pageable.offset}
+      </if>
+      <if test="pageable.offset == null">
+        limit ${pageable.pageSize}
+      </if>
+    </if>
+  </select>
+  <select id="count" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.StaffRoleExample" resultType="java.lang.Long">
+    select     count(*) from staff_roles
+    <where>
+      <if test="_parameter != null and oredCriteria != null">
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+          <if test="criteria.valid">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <foreach collection="criteria.criteria" item="criterion">
+                <choose>
+                  <when test="criterion.noValue">
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue">
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue">
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue">
+                    and ${criterion.condition}
+                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>

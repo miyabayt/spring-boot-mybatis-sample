@@ -1,0 +1,42 @@
+plugins {
+    id "com.diffplug.spotless" version "${spotlessVersion}"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    groovyGradle {
+        target "*.gradle", "**/*.gradle"
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+
+    format "misc", {
+        target "**/*.md", "**/*.yml"
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
+
+    lineEndings "UNIX"
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    implementation "org.mybatis.generator:mybatis-generator-core:${mybatisGeneratorVersion}"
+    implementation "org.mybatis.generator:mybatis-generator-maven-plugin:${mybatisGeneratorVersion}"
+}
+
+compileJava.dependsOn "spotlessApply"
