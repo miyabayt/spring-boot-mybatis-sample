@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="simple" targetRuntime="MyBatis3">
+        <!-- Spring連携のための@Mapperアノテーションを付与する -->
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
+
+        <!-- モデルクラスをシリアライズ可能にする -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!-- Spring連携のための@Mapperアノテーションを付与する -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin" />
+        <plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin">
+            <property name="allowMultiQueries" value="false" />
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.LombokPlugin">
+            <property name="@Data" value="false"/>
+            <property name="@Setter" value="true"/>
+            <property name="@Getter" value="true"/>
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.UpsertPlugin">
+            <property name="allowMultiQueries" value="false" />
+            <property name="allowBatchUpsert" value="false" />
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.OptimisticLockerPlugin">
+            <property name="customizedNextVersion" value="false" />
+        </plugin>
+
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_by, updated_by" />
+            <property name="annotation" value="@JsonIgnore" />
+            <property name="importType" value="com.fasterxml.jackson.annotation.JsonIgnore" />
+        </plugin>
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_by" />
+            <property name="annotation" value="@CreatedBy" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="updated_by" />
+            <property name="annotation" value="@LastModifiedBy" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_at" />
+            <property name="annotation" value="@CreatedDate" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="updated_at" />
+            <property name="annotation" value="@LastModifiedDate" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="version" />
+            <property name="annotation" value="@Version" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+
+        <plugin type="com.bigtreetc.mybatis.sample.generator.plugin.GenerateRepositoryPlugin">
+            <property name="javaTargetPackage" value="com.bigtreetc.mybatis.sample.domain.repository" />
+            <property name="sqlMapTargetPackage" value="mapper" />
+        </plugin>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${driverClass}"
+                        connectionURL="${connectionURL}"
+                        userId="${userId}"
+                        password="${password}">
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+            <property name="useJSR310Types" value="true" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="${javaModelPackage}" targetProject="${projectDir}/src/main/java" />
+
+        <sqlMapGenerator targetPackage="mapper/generated" targetProject="${projectDir}/src/main/resources/mybatis">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${mapperPackage}" targetProject="${projectDir}/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="%" />
+
+    </context>
+</generatorConfiguration>

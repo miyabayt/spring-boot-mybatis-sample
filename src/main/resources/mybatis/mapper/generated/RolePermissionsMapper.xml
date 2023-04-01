@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigtreetc.mybatis.sample.domain.mapper.generated.RolePermissionsMapper">
+  <resultMap id="BaseResultMap" type="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    <id column="role_permission_id" jdbcType="BIGINT" property="rolePermissionId" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="permission_code" jdbcType="VARCHAR" property="permissionCode" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
+    updated_by, updated_at, version
+  </sql>
+  <select id="selectByExample" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissionsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from role_permissions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role_permissions
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from role_permissions
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissionsExample">
+    delete from role_permissions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    insert into role_permissions (role_permission_id, role_code, permission_code, 
+      is_enabled, created_by, created_at, 
+      updated_by, updated_at, version
+      )
+    values (#{rolePermissionId,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, 
+      #{isEnabled,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    insert into role_permissions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rolePermissionId != null">
+        role_permission_id,
+      </if>
+      <if test="roleCode != null">
+        role_code,
+      </if>
+      <if test="permissionCode != null">
+        permission_code,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rolePermissionId != null">
+        #{rolePermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="roleCode != null">
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissionsExample" resultType="java.lang.Long">
+    select count(*) from role_permissions
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update role_permissions
+    <set>
+      <if test="record.rolePermissionId != null">
+        role_permission_id = #{record.rolePermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.roleCode != null">
+        role_code = #{record.roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permissionCode != null">
+        permission_code = #{record.permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
+      </if>
+      <if test="record.createdBy != null">
+        created_by = #{record.createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedBy != null">
+        updated_by = #{record.updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedAt != null">
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update role_permissions
+    set role_permission_id = #{record.rolePermissionId,jdbcType=BIGINT},
+      role_code = #{record.roleCode,jdbcType=VARCHAR},
+      permission_code = #{record.permissionCode,jdbcType=VARCHAR},
+      is_enabled = #{record.isEnabled,jdbcType=BIT},
+      created_by = #{record.createdBy,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{record.updatedBy,jdbcType=VARCHAR},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    update role_permissions
+    <set>
+      <if test="roleCode != null">
+        role_code = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        permission_code = #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+    </set>
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    update role_permissions
+    set role_code = #{roleCode,jdbcType=VARCHAR},
+      permission_code = #{permissionCode,jdbcType=VARCHAR},
+      is_enabled = #{isEnabled,jdbcType=BIT},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT}
+    where role_permission_id = #{rolePermissionId,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into role_permissions
+    (role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
+      updated_by, updated_at, version)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.rolePermissionId,jdbcType=BIGINT}, #{item.roleCode,jdbcType=VARCHAR}, #{item.permissionCode,jdbcType=VARCHAR}, 
+        #{item.isEnabled,jdbcType=BIT}, #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, 
+        #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}
+        )
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into role_permissions (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'role_permission_id'.toString() == column.value">
+          #{item.rolePermissionId,jdbcType=BIGINT}
+        </if>
+        <if test="'role_code'.toString() == column.value">
+          #{item.roleCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'permission_code'.toString() == column.value">
+          #{item.permissionCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'is_enabled'.toString() == column.value">
+          #{item.isEnabled,jdbcType=BIT}
+        </if>
+        <if test="'created_by'.toString() == column.value">
+          #{item.createdBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'created_at'.toString() == column.value">
+          #{item.createdAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'updated_by'.toString() == column.value">
+          #{item.updatedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'updated_at'.toString() == column.value">
+          #{item.updatedAt,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'version'.toString() == column.value">
+          #{item.version,jdbcType=BIGINT}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+  <insert id="upsertSelective" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    insert into role_permissions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rolePermissionId != null">
+        role_permission_id,
+      </if>
+      <if test="roleCode != null">
+        role_code,
+      </if>
+      <if test="permissionCode != null">
+        permission_code,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rolePermissionId != null">
+        #{rolePermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="roleCode != null">
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="rolePermissionId != null">
+        role_permission_id = #{rolePermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="roleCode != null">
+        role_code = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        permission_code = #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <insert id="upsert" parameterType="com.bigtreetc.mybatis.sample.domain.model.generated.RolePermissions">
+    insert into role_permissions
+    (role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
+      updated_by, updated_at, version)
+    values
+    (#{rolePermissionId,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, 
+      #{isEnabled,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
+      )
+    on duplicate key update 
+    role_permission_id = #{rolePermissionId,jdbcType=BIGINT}, 
+    role_code = #{roleCode,jdbcType=VARCHAR}, 
+    permission_code = #{permissionCode,jdbcType=VARCHAR}, 
+    is_enabled = #{isEnabled,jdbcType=BIT}, 
+    created_by = #{createdBy,jdbcType=VARCHAR}, 
+    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
+    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
+    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
+    version = #{version,jdbcType=BIGINT}
+  </insert>
+</mapper>

@@ -1,0 +1,52 @@
+# 共通の設定を定義する
+server:
+  forward-headers-strategy: framework
+  port: 8080
+  compression:
+    enabled: true
+spring:
+  profiles:
+    default: local
+  messages:
+    basename: messages
+    encoding: UTF-8
+  jackson:
+    # 日付型をISO形式で出力する
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  servlet:
+    multipart:
+      # アップロードのサイズ制限を設定する
+      max-file-size: 20MB
+      max-request-size: 20MB
+  sql:
+    init:
+      platform: mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: false
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      minimum-idle: 1
+      maximum-pool-size: 4
+  flyway:
+    placeholder-replacement: false
+  output:
+    ansi:
+      enabled: detect
+management:
+  health:
+    db:
+      enabled: false
+    mail:
+      enabled: false
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  lazy-initialization: true
+  configuration:
+    map-underscore-to-camel-case: true
+    configuration:
+      local-cache-scope: STATEMENT
