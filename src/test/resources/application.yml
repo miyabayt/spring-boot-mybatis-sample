@@ -1,0 +1,16 @@
+spring:
+  messages:
+    basename: messages
+    encoding: UTF-8
+  thymeleaf:
+    encoding: UTF-8
+  jackson:
+    # 日付型をISO形式で出力する
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  flyway:
+    baseline-on-migrate: true
+    placeholder-replacement: false
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
