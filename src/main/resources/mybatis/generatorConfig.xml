@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="simple" targetRuntime="MyBatis3">
+        <!-- Spring連携のための@Mapperアノテーションを付与する -->
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
+
+        <!-- モデルクラスをシリアライズ可能にする -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!-- Spring連携のための@Mapperアノテーションを付与する -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin" />
+        <plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin">
+            <property name="allowMultiQueries" value="false" />
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.LombokPlugin">
+            <property name="@Data" value="false" />
+            <property name="@Setter" value="true" />
+            <property name="@Getter" value="true" />
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.UpsertPlugin">
+            <property name="allowMultiQueries" value="false" />
+            <property name="allowBatchUpsert" value="false" />
+        </plugin>
+        <plugin type="com.itfsw.mybatis.generator.plugins.OptimisticLockerPlugin">
+            <property name="customizedNextVersion" value="false" />
+        </plugin>
+
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_by, updated_by" />
+            <property name="annotation" value="@JsonIgnore" />
+            <property name="importType" value="com.fasterxml.jackson.annotation.JsonIgnore" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_by" />
+            <property name="annotation" value="@CreatedBy" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="updated_by" />
+            <property name="annotation" value="@LastModifiedBy" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="created_at" />
+            <property name="annotation" value="@CreatedDate" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="updated_at" />
+            <property name="annotation" value="@LastModifiedDate" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelFieldAnnotationPlugin">
+            <property name="columns" value="version" />
+            <property name="annotation" value="@Version" />
+            <property name="importType" value="org.springframework.data.annotation.*" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.AddModelClassInterfaceImplementationPlugin">
+            <property name="interfaze" value="BaseEntity" />
+            <property name="importType" value="com.bigtreetc.sample.mybatis.base.domain.model.BaseEntity" />
+        </plugin>
+        <plugin type="com.bigtreetc.sample.mybatis.generator.plugin.GenerateRepositoryPlugin">
+            <property name="modelJavaTargetPackage" value="com.bigtreetc.sample.mybatis.domain.model" />
+            <property name="repositoryJavaTargetPackage" value="com.bigtreetc.sample.mybatis.domain.repository" />
+            <property name="sqlMapTargetPackage" value="mapper" />
+        </plugin>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${driverClass}"
+                        connectionURL="${connectionURL}"
+                        userId="${userId}"
+                        password="${password}">
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+            <property name="useJSR310Types" value="true" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="${javaModelPackage}" targetProject="${projectDir}/src/main/java" />
+
+        <sqlMapGenerator targetPackage="mapper/generated" targetProject="${projectDir}/src/main/resources/mybatis">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${mapperPackage}" targetProject="${projectDir}/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="flyway_schema_history"
+               enableInsert="false"
+               enableSelectByPrimaryKey="false"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="false"
+               enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               enableCountByExample="false"
+        />
+        <table tableName="codes" domainObjectName="Code" selectByExampleQueryId="false">
+            <columnOverride column="code_id" property="id" />
+        </table>
+        <table tableName="code_categories" domainObjectName="CodeCategory" selectByExampleQueryId="false">
+            <columnOverride column="code_category_id" property="id" />
+        </table>
+        <table tableName="holidays" domainObjectName="Holiday" selectByExampleQueryId="false">
+            <columnOverride column="holiday_id" property="id" />
+        </table>
+        <table tableName="mail_templates" domainObjectName="MailTemplate" selectByExampleQueryId="false">
+            <columnOverride column="mail_template_id" property="id" />
+        </table>
+        <table tableName="permissions" domainObjectName="Permission" selectByExampleQueryId="false">
+            <columnOverride column="permission_id" property="id" />
+        </table>
+        <table tableName="role_permissions" domainObjectName="RolePermission" selectByExampleQueryId="false">
+            <columnOverride column="role_permission_id" property="id" />
+        </table>
+        <table tableName="roles" domainObjectName="Role" selectByExampleQueryId="false">
+            <columnOverride column="role_id" property="id" />
+        </table>
+        <table tableName="send_mail_queue" domainObjectName="SendMailQueue" selectByExampleQueryId="false">
+            <columnOverride column="send_mail_queue_id" property="id" />
+        </table>
+        <table tableName="staff_roles" domainObjectName="StaffRole" selectByExampleQueryId="false">
+            <columnOverride column="staff_role_id" property="id" />
+        </table>
+        <table tableName="staffs" domainObjectName="Staff" selectByExampleQueryId="false">
+            <columnOverride column="staff_id" property="id" />
+        </table>
+        <table tableName="user_roles" domainObjectName="UserRole" selectByExampleQueryId="false">
+            <columnOverride column="user_role_id" property="id" />
+        </table>
+        <table tableName="users" domainObjectName="User" selectByExampleQueryId="false">
+            <columnOverride column="user_id" property="id" />
+        </table>
+
+    </context>
+</generatorConfiguration>
