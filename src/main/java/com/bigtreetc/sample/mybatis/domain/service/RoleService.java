@@ -98,14 +98,11 @@ public class RoleService extends BaseTransactionalService {
     RoleExample example = new RoleExample();
     example.createCriteria().andIdEqualTo(roleId).andVersionEqualTo(version);
 
-    // 暫定
     val role = roleRepository.findById(roleId);
-    inputRole.setCreatedAt(role.getCreatedAt());
-    inputRole.setCreatedBy(role.getCreatedBy());
-    inputRole.setUpdatedBy("test");
-    roleRepository.update(inputRole);
+    modelMapper.map(inputRole, role);
+    roleRepository.update(role);
 
-    return inputRole;
+    return role;
   }
 
   /**

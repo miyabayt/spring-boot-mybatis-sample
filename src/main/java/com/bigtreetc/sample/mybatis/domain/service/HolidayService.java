@@ -98,14 +98,11 @@ public class HolidayService extends BaseTransactionalService {
     HolidayExample example = new HolidayExample();
     example.createCriteria().andIdEqualTo(holidayId).andVersionEqualTo(version);
 
-    // 暫定
     val holiday = holidayRepository.findById(holidayId);
-    inputHoliday.setCreatedAt(holiday.getCreatedAt());
-    inputHoliday.setCreatedBy(holiday.getCreatedBy());
-    inputHoliday.setUpdatedBy("test");
-    holidayRepository.update(inputHoliday);
+    modelMapper.map(inputHoliday, holiday);
+    holidayRepository.update(holiday);
 
-    return inputHoliday;
+    return holiday;
   }
 
   /**

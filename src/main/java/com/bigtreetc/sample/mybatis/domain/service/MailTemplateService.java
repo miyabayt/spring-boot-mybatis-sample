@@ -98,14 +98,11 @@ public class MailTemplateService extends BaseTransactionalService {
     MailTemplateExample example = new MailTemplateExample();
     example.createCriteria().andIdEqualTo(mailTemplateId).andVersionEqualTo(version);
 
-    // 暫定
     val mailTemplate = mailTemplateRepository.findById(mailTemplateId);
-    inputMailTemplate.setCreatedAt(mailTemplate.getCreatedAt());
-    inputMailTemplate.setCreatedBy(mailTemplate.getCreatedBy());
-    inputMailTemplate.setUpdatedBy("test");
-    mailTemplateRepository.update(inputMailTemplate);
+    modelMapper.map(inputMailTemplate, mailTemplate);
+    mailTemplateRepository.update(mailTemplate);
 
-    return inputMailTemplate;
+    return mailTemplate;
   }
 
   /**

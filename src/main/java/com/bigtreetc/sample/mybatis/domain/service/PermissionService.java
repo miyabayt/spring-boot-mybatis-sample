@@ -98,14 +98,11 @@ public class PermissionService extends BaseTransactionalService {
     PermissionExample example = new PermissionExample();
     example.createCriteria().andIdEqualTo(permissionId).andVersionEqualTo(version);
 
-    // 暫定
     val permission = permissionRepository.findById(permissionId);
-    inputPermission.setCreatedAt(permission.getCreatedAt());
-    inputPermission.setCreatedBy(permission.getCreatedBy());
-    inputPermission.setUpdatedBy("test");
-    permissionRepository.update(inputPermission);
+    modelMapper.map(inputPermission, permission);
+    permissionRepository.update(permission);
 
-    return inputPermission;
+    return permission;
   }
 
   /**

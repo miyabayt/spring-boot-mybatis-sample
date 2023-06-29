@@ -37,6 +37,10 @@ public class VersionColumnOptimisticLockInterceptor implements Interceptor {
           return setNextVersionAndProceed(invocation, entity);
         }
       }
+    } else if (mappedStatement.getSqlCommandType() == SqlCommandType.INSERT) {
+      if (parameter instanceof BaseEntity entity) {
+        entity.setVersion(1L);
+      }
     }
 
     return invocation.proceed();

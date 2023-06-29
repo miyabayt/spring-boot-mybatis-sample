@@ -98,14 +98,11 @@ public class CodeCategoryService extends BaseTransactionalService {
     CodeCategoryExample example = new CodeCategoryExample();
     example.createCriteria().andIdEqualTo(codeCategoryId).andVersionEqualTo(version);
 
-    // 暫定
     val codeCategory = codeCategoryRepository.findById(codeCategoryId);
-    inputCodeCategory.setCreatedAt(codeCategory.getCreatedAt());
-    inputCodeCategory.setCreatedBy(codeCategory.getCreatedBy());
-    inputCodeCategory.setUpdatedBy("test");
-    codeCategoryRepository.update(inputCodeCategory);
+    modelMapper.map(inputCodeCategory, codeCategory);
+    codeCategoryRepository.update(codeCategory);
 
-    return inputCodeCategory;
+    return codeCategory;
   }
 
   /**

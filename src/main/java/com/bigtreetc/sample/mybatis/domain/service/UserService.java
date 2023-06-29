@@ -98,14 +98,11 @@ public class UserService extends BaseTransactionalService {
     UserExample example = new UserExample();
     example.createCriteria().andIdEqualTo(userId).andVersionEqualTo(version);
 
-    // 暫定
     val user = userRepository.findById(userId);
-    inputUser.setCreatedAt(user.getCreatedAt());
-    inputUser.setCreatedBy(user.getCreatedBy());
-    inputUser.setUpdatedBy("test");
-    userRepository.update(inputUser);
+    modelMapper.map(inputUser, user);
+    userRepository.update(user);
 
-    return inputUser;
+    return user;
   }
 
   /**

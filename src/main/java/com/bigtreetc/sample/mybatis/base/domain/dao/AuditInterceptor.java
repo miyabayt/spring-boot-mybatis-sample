@@ -27,14 +27,17 @@ public class AuditInterceptor implements Interceptor {
     Class<?> clazz = entityObj.getClass();
     Field[] fields = clazz.getDeclaredFields();
     for (Field field : fields) {
-      if (field.getAnnotation(CreatedDate.class) != null
-          && mappedStatement.getSqlCommandType() == SqlCommandType.INSERT) {
+      field.setAccessible(true);
+      if (mappedStatement.getSqlCommandType() == SqlCommandType.INSERT
+          && field.getAnnotation(CreatedDate.class) != null
+          && field.get(entityObj) == null) {
         setAuditDateTime(entityObj, field);
       } else if (field.getAnnotation(LastModifiedDate.class) != null) {
         setAuditDateTime(entityObj, field);
       }
-      if (field.getAnnotation(CreatedBy.class) != null
-          && mappedStatement.getSqlCommandType() == SqlCommandType.UPDATE) {
+      if (mappedStatement.getSqlCommandType() == SqlCommandType.INSERT
+          && field.getAnnotation(CreatedBy.class) != null
+          && field.get(entityObj) == null) {
         setAuditUser(entityObj, field);
       } else if (field.getAnnotation(LastModifiedBy.class) != null) {
         setAuditUser(entityObj, field);
@@ -45,16 +48,10 @@ public class AuditInterceptor implements Interceptor {
   }
 
   private void setAuditDateTime(Object obj, Field field) throws IllegalAccessException {
-    field.setAccessible(true);
-    if (field.get(obj) != null) {
-      field.set(obj, AuditInfoHolder.getAuditDateTime());
-    }
+    field.set(obj, AuditInfoHolder.getAuditDateTime());
   }
 
   private void setAuditUser(Object obj, Field field) throws IllegalAccessException {
-    field.setAccessible(true);
-    if (field.get(obj) != null) {
-      field.set(obj, AuditInfoHolder.getAuditUser());
-    }
+    field.set(obj, AuditInfoHolder.getAuditUser());
   }
 }

@@ -98,14 +98,11 @@ public class StaffService extends BaseTransactionalService {
     StaffExample example = new StaffExample();
     example.createCriteria().andIdEqualTo(staffId).andVersionEqualTo(version);
 
-    // 暫定
     val staff = staffRepository.findById(staffId);
-    inputStaff.setCreatedAt(staff.getCreatedAt());
-    inputStaff.setCreatedBy(staff.getCreatedBy());
-    inputStaff.setUpdatedBy("test");
-    staffRepository.update(inputStaff);
+    modelMapper.map(inputStaff, staff);
+    staffRepository.update(staff);
 
-    return inputStaff;
+    return staff;
   }
 
   /**

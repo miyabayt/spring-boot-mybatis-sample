@@ -98,14 +98,11 @@ public class CodeService extends BaseTransactionalService {
     CodeExample example = new CodeExample();
     example.createCriteria().andIdEqualTo(codeId).andVersionEqualTo(version);
 
-    // 暫定
     val code = codeRepository.findById(codeId);
-    inputCode.setCreatedAt(code.getCreatedAt());
-    inputCode.setCreatedBy(code.getCreatedBy());
-    inputCode.setUpdatedBy("test");
-    codeRepository.update(inputCode);
+    modelMapper.map(inputCode, code);
+    codeRepository.update(code);
 
-    return inputCode;
+    return code;
   }
 
   /**
