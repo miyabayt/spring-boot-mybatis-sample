@@ -138,6 +138,7 @@
         </table>
         <table tableName="staffs" domainObjectName="Staff" selectByExampleQueryId="false">
             <columnOverride column="staff_id" property="id" />
+            <columnOverride column="full_name" isGeneratedAlways="true" />
         </table>
         <table tableName="user_roles" domainObjectName="UserRole" selectByExampleQueryId="false">
             <columnOverride column="user_role_id" property="id" />
