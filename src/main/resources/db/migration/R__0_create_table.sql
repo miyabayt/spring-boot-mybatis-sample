@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS user_roles(
 
 CREATE TABLE IF NOT EXISTS staffs(
   staff_id BIGINT(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '担当者ID'
-  , first_name VARCHAR(40) NOT NULL COMMENT '名前'
-  , last_name VARCHAR(40) NOT NULL COMMENT '苗字'
+  , first_name VARCHAR(40) NOT NULL COMMENT '名'
+  , last_name VARCHAR(40) NOT NULL COMMENT '姓'
   , full_name VARCHAR(100) GENERATED ALWAYS AS (CONCAT(first_name, last_name)) VIRTUAL COMMENT '氏名'
   , email VARCHAR(100) DEFAULT NULL COMMENT 'メールアドレス'
   , password VARCHAR(100) DEFAULT NULL COMMENT 'パスワード'
