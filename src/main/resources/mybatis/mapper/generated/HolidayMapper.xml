@@ -104,20 +104,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday">
-    insert into holidays (holiday_id, holiday_name, holiday_date, 
-      created_by, created_at, updated_by, 
-      updated_at, version)
-    values (#{id,jdbcType=BIGINT}, #{holidayName,jdbcType=VARCHAR}, #{holidayDate,jdbcType=DATE}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+  <insert id="insert" keyColumn="holiday_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday" useGeneratedKeys="true">
+    insert into holidays (holiday_name, holiday_date, created_by, 
+      created_at, updated_by, updated_at, 
+      version)
+    values (#{holidayName,jdbcType=VARCHAR}, #{holidayDate,jdbcType=DATE}, #{createdBy,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday">
+  <insert id="insertSelective" keyColumn="holiday_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday" useGeneratedKeys="true">
     insert into holidays
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        holiday_id,
-      </if>
       <if test="holidayName != null">
         holiday_name,
       </if>
@@ -141,9 +138,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="holidayName != null">
         #{holidayName,jdbcType=VARCHAR},
       </if>
@@ -257,18 +251,18 @@
       version = #{version,jdbcType=BIGINT}
     where holiday_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="holiday_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into holidays
-    (holiday_id, holiday_name, holiday_date, created_by, created_at, updated_by, updated_at, 
-      version)
+    (holiday_name, holiday_date, created_by, created_at, updated_by, updated_at, version
+      )
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.holidayName,jdbcType=VARCHAR}, #{item.holidayDate,jdbcType=DATE}, 
-        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
-        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
+      (#{item.holidayName,jdbcType=VARCHAR}, #{item.holidayDate,jdbcType=DATE}, #{item.createdBy,jdbcType=VARCHAR}, 
+        #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, 
+        #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="holiday_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into holidays (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -278,9 +272,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'holiday_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'holiday_name'.toString() == column.value">
           #{item.holidayName,jdbcType=VARCHAR}
         </if>
@@ -306,7 +297,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday">
+  <insert id="upsertSelective" keyColumn="holiday_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday" useGeneratedKeys="true">
     insert into holidays
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -389,23 +380,46 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday">
+  <insert id="upsert" keyColumn="holiday_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Holiday" useGeneratedKeys="true">
     insert into holidays
-    (holiday_id, holiday_name, holiday_date, created_by, created_at, updated_by, updated_at, 
-      version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        holiday_id,
+      </if>
+      holiday_name,
+      holiday_date,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{holidayName,jdbcType=VARCHAR}, #{holidayDate,jdbcType=DATE}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{holidayName,jdbcType=VARCHAR},
+      #{holidayDate,jdbcType=DATE},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    holiday_id = #{id,jdbcType=BIGINT}, 
-    holiday_name = #{holidayName,jdbcType=VARCHAR}, 
-    holiday_date = #{holidayDate,jdbcType=DATE}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        holiday_id = #{id,jdbcType=BIGINT},
+      </if>
+      holiday_name = #{holidayName,jdbcType=VARCHAR},
+      holiday_date = #{holidayDate,jdbcType=DATE},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.HolidayExample" resultMap="BaseResultMap">
     select holiday_id, holiday_name, holiday_date, created_by, created_at, updated_by, 

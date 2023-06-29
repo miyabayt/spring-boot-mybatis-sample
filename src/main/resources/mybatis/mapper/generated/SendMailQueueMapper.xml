@@ -135,24 +135,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue">
-    insert into send_mail_queue (send_mail_queue_id, created_at, from_address, 
-      to_address, cc_address, bcc_address, 
-      subject, sent_at, created_by, 
-      updated_by, updated_at, version, 
-      body)
-    values (#{id,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{toAddress,jdbcType=VARCHAR}, #{ccAddress,jdbcType=VARCHAR}, #{bccAddress,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{sentAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
-      #{body,jdbcType=LONGVARCHAR})
+  <insert id="insert" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue" useGeneratedKeys="true">
+    insert into send_mail_queue (created_at, from_address, to_address, 
+      cc_address, bcc_address, subject, 
+      sent_at, created_by, updated_by, 
+      updated_at, version, body
+      )
+    values (#{createdAt,jdbcType=TIMESTAMP}, #{fromAddress,jdbcType=VARCHAR}, #{toAddress,jdbcType=VARCHAR}, 
+      #{ccAddress,jdbcType=VARCHAR}, #{bccAddress,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{sentAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, #{body,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue">
+  <insert id="insertSelective" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue" useGeneratedKeys="true">
     insert into send_mail_queue
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        send_mail_queue_id,
-      </if>
       <if test="createdAt != null">
         created_at,
       </if>
@@ -191,9 +188,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
       </if>
@@ -393,20 +387,20 @@
     where send_mail_queue_id = #{id,jdbcType=BIGINT}
       and created_at = #{createdAt,jdbcType=TIMESTAMP}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into send_mail_queue
-    (send_mail_queue_id, created_at, from_address, to_address, cc_address, bcc_address, 
-      subject, sent_at, created_by, updated_by, updated_at, version, body)
+    (created_at, from_address, to_address, cc_address, bcc_address, subject, sent_at, 
+      created_by, updated_by, updated_at, version, body)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.fromAddress,jdbcType=VARCHAR}, 
-        #{item.toAddress,jdbcType=VARCHAR}, #{item.ccAddress,jdbcType=VARCHAR}, #{item.bccAddress,jdbcType=VARCHAR}, 
-        #{item.subject,jdbcType=VARCHAR}, #{item.sentAt,jdbcType=TIMESTAMP}, #{item.createdBy,jdbcType=VARCHAR}, 
-        #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}, 
-        #{item.body,jdbcType=LONGVARCHAR})
+      (#{item.createdAt,jdbcType=TIMESTAMP}, #{item.fromAddress,jdbcType=VARCHAR}, #{item.toAddress,jdbcType=VARCHAR}, 
+        #{item.ccAddress,jdbcType=VARCHAR}, #{item.bccAddress,jdbcType=VARCHAR}, #{item.subject,jdbcType=VARCHAR}, 
+        #{item.sentAt,jdbcType=TIMESTAMP}, #{item.createdBy,jdbcType=VARCHAR}, #{item.updatedBy,jdbcType=VARCHAR}, 
+        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}, #{item.body,jdbcType=LONGVARCHAR}
+        )
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="send_mail_queue_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into send_mail_queue (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -416,9 +410,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'send_mail_queue_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'created_at'.toString() == column.value">
           #{item.createdAt,jdbcType=TIMESTAMP}
         </if>
@@ -459,7 +450,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue">
+  <insert id="upsertSelective" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue" useGeneratedKeys="true">
     insert into send_mail_queue
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -587,54 +578,114 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue">
+  <insert id="upsert" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue" useGeneratedKeys="true">
     insert into send_mail_queue
-    (send_mail_queue_id, created_at, from_address, to_address, cc_address, bcc_address, 
-      subject, sent_at, created_by, updated_by, updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        send_mail_queue_id,
+      </if>
+      created_at,
+      from_address,
+      to_address,
+      cc_address,
+      bcc_address,
+      subject,
+      sent_at,
+      created_by,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{toAddress,jdbcType=VARCHAR}, #{ccAddress,jdbcType=VARCHAR}, #{bccAddress,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{sentAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{fromAddress,jdbcType=VARCHAR},
+      #{toAddress,jdbcType=VARCHAR},
+      #{ccAddress,jdbcType=VARCHAR},
+      #{bccAddress,jdbcType=VARCHAR},
+      #{subject,jdbcType=VARCHAR},
+      #{sentAt,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=VARCHAR},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    send_mail_queue_id = #{id,jdbcType=BIGINT}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    from_address = #{fromAddress,jdbcType=VARCHAR}, 
-    to_address = #{toAddress,jdbcType=VARCHAR}, 
-    cc_address = #{ccAddress,jdbcType=VARCHAR}, 
-    bcc_address = #{bccAddress,jdbcType=VARCHAR}, 
-    subject = #{subject,jdbcType=VARCHAR}, 
-    sent_at = #{sentAt,jdbcType=TIMESTAMP}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        send_mail_queue_id = #{id,jdbcType=BIGINT},
+      </if>
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      from_address = #{fromAddress,jdbcType=VARCHAR},
+      to_address = #{toAddress,jdbcType=VARCHAR},
+      cc_address = #{ccAddress,jdbcType=VARCHAR},
+      bcc_address = #{bccAddress,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      sent_at = #{sentAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
-  <insert id="upsertWithBLOBs" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue">
+  <insert id="upsertWithBLOBs" keyColumn="send_mail_queue_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueue" useGeneratedKeys="true">
     insert into send_mail_queue
-    (send_mail_queue_id, created_at, from_address, to_address, cc_address, bcc_address, 
-      subject, sent_at, created_by, updated_by, updated_at, version, body)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        send_mail_queue_id,
+      </if>
+      created_at,
+      from_address,
+      to_address,
+      cc_address,
+      bcc_address,
+      subject,
+      sent_at,
+      created_by,
+      updated_by,
+      updated_at,
+      version,
+      body,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{fromAddress,jdbcType=VARCHAR}, 
-      #{toAddress,jdbcType=VARCHAR}, #{ccAddress,jdbcType=VARCHAR}, #{bccAddress,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{sentAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
-      #{body,jdbcType=LONGVARCHAR})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{fromAddress,jdbcType=VARCHAR},
+      #{toAddress,jdbcType=VARCHAR},
+      #{ccAddress,jdbcType=VARCHAR},
+      #{bccAddress,jdbcType=VARCHAR},
+      #{subject,jdbcType=VARCHAR},
+      #{sentAt,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=VARCHAR},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+      #{body,jdbcType=LONGVARCHAR},
+    </trim>
     on duplicate key update 
-    send_mail_queue_id = #{id,jdbcType=BIGINT}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    from_address = #{fromAddress,jdbcType=VARCHAR}, 
-    to_address = #{toAddress,jdbcType=VARCHAR}, 
-    cc_address = #{ccAddress,jdbcType=VARCHAR}, 
-    bcc_address = #{bccAddress,jdbcType=VARCHAR}, 
-    subject = #{subject,jdbcType=VARCHAR}, 
-    sent_at = #{sentAt,jdbcType=TIMESTAMP}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}, 
-    body = #{body,jdbcType=LONGVARCHAR}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        send_mail_queue_id = #{id,jdbcType=BIGINT},
+      </if>
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      from_address = #{fromAddress,jdbcType=VARCHAR},
+      to_address = #{toAddress,jdbcType=VARCHAR},
+      cc_address = #{ccAddress,jdbcType=VARCHAR},
+      bcc_address = #{bccAddress,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      sent_at = #{sentAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+      body = #{body,jdbcType=LONGVARCHAR},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.SendMailQueueExample" resultMap="BaseResultMap">
     select send_mail_queue_id, created_at, from_address, to_address, cc_address, bcc_address, 

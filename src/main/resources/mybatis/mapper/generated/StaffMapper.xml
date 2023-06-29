@@ -110,24 +110,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff">
-    insert into staffs (staff_id, first_name, last_name, 
-      email, password, tel, 
-      password_reset_token, token_expires_at, created_by, 
-      created_at, updated_by, updated_at, 
-      version)
-    values (#{id,jdbcType=BIGINT}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{passwordResetToken,jdbcType=VARCHAR}, #{tokenExpiresAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=BIGINT})
+  <insert id="insert" keyColumn="staff_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff" useGeneratedKeys="true">
+    insert into staffs (first_name, last_name, email, 
+      password, tel, password_reset_token, 
+      token_expires_at, created_by, created_at, 
+      updated_by, updated_at, version
+      )
+    values (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{passwordResetToken,jdbcType=VARCHAR}, 
+      #{tokenExpiresAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff">
+  <insert id="insertSelective" keyColumn="staff_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff" useGeneratedKeys="true">
     insert into staffs
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        staff_id,
-      </if>
       <if test="firstName != null">
         first_name,
       </if>
@@ -166,9 +163,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="firstName != null">
         #{firstName,jdbcType=VARCHAR},
       </if>
@@ -337,20 +331,20 @@
       version = #{version,jdbcType=BIGINT}
     where staff_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="staff_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into staffs
-    (staff_id, first_name, last_name, email, password, tel, password_reset_token, token_expires_at, 
+    (first_name, last_name, email, password, tel, password_reset_token, token_expires_at, 
       created_by, created_at, updated_by, updated_at, version)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.firstName,jdbcType=VARCHAR}, #{item.lastName,jdbcType=VARCHAR}, 
-        #{item.email,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.tel,jdbcType=VARCHAR}, 
-        #{item.passwordResetToken,jdbcType=VARCHAR}, #{item.tokenExpiresAt,jdbcType=TIMESTAMP}, 
-        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
-        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
+      (#{item.firstName,jdbcType=VARCHAR}, #{item.lastName,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR}, 
+        #{item.password,jdbcType=VARCHAR}, #{item.tel,jdbcType=VARCHAR}, #{item.passwordResetToken,jdbcType=VARCHAR}, 
+        #{item.tokenExpiresAt,jdbcType=TIMESTAMP}, #{item.createdBy,jdbcType=VARCHAR}, 
+        #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, 
+        #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="staff_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into staffs (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -360,9 +354,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'staff_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'first_name'.toString() == column.value">
           #{item.firstName,jdbcType=VARCHAR}
         </if>
@@ -403,7 +394,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff">
+  <insert id="upsertSelective" keyColumn="staff_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff" useGeneratedKeys="true">
     insert into staffs
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -531,30 +522,61 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff">
+  <insert id="upsert" keyColumn="staff_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Staff" useGeneratedKeys="true">
     insert into staffs
-    (staff_id, first_name, last_name, email, password, tel, password_reset_token, token_expires_at, 
-      created_by, created_at, updated_by, updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        staff_id,
+      </if>
+      first_name,
+      last_name,
+      email,
+      password,
+      tel,
+      password_reset_token,
+      token_expires_at,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{passwordResetToken,jdbcType=VARCHAR}, #{tokenExpiresAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=BIGINT})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{firstName,jdbcType=VARCHAR},
+      #{lastName,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR},
+      #{tel,jdbcType=VARCHAR},
+      #{passwordResetToken,jdbcType=VARCHAR},
+      #{tokenExpiresAt,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    staff_id = #{id,jdbcType=BIGINT}, 
-    first_name = #{firstName,jdbcType=VARCHAR}, 
-    last_name = #{lastName,jdbcType=VARCHAR}, 
-    email = #{email,jdbcType=VARCHAR}, 
-    password = #{password,jdbcType=VARCHAR}, 
-    tel = #{tel,jdbcType=VARCHAR}, 
-    password_reset_token = #{passwordResetToken,jdbcType=VARCHAR}, 
-    token_expires_at = #{tokenExpiresAt,jdbcType=TIMESTAMP}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        staff_id = #{id,jdbcType=BIGINT},
+      </if>
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      password_reset_token = #{passwordResetToken,jdbcType=VARCHAR},
+      token_expires_at = #{tokenExpiresAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.StaffExample" resultMap="BaseResultMap">
     select staff_id, first_name, last_name, full_name, email, password, tel, password_reset_token, 

@@ -130,22 +130,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate">
-    insert into mail_templates (mail_template_id, template_code, category_code, 
-      subject, created_by, created_at, 
-      updated_by, updated_at, version, 
-      template_body)
-    values (#{id,jdbcType=BIGINT}, #{templateCode,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
-      #{templateBody,jdbcType=LONGVARCHAR})
+  <insert id="insert" keyColumn="mail_template_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate" useGeneratedKeys="true">
+    insert into mail_templates (template_code, category_code, subject, 
+      created_by, created_at, updated_by, 
+      updated_at, version, template_body
+      )
+    values (#{templateCode,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, #{templateBody,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate">
+  <insert id="insertSelective" keyColumn="mail_template_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate" useGeneratedKeys="true">
     insert into mail_templates
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        mail_template_id,
-      </if>
       <if test="templateCode != null">
         template_code,
       </if>
@@ -175,9 +172,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="templateCode != null">
         #{templateCode,jdbcType=VARCHAR},
       </if>
@@ -340,19 +334,19 @@
       version = #{version,jdbcType=BIGINT}
     where mail_template_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="mail_template_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into mail_templates
-    (mail_template_id, template_code, category_code, subject, created_by, created_at, 
-      updated_by, updated_at, version, template_body)
+    (template_code, category_code, subject, created_by, created_at, updated_by, updated_at, 
+      version, template_body)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.templateCode,jdbcType=VARCHAR}, #{item.categoryCode,jdbcType=VARCHAR}, 
-        #{item.subject,jdbcType=VARCHAR}, #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, 
-        #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}, 
-        #{item.templateBody,jdbcType=LONGVARCHAR})
+      (#{item.templateCode,jdbcType=VARCHAR}, #{item.categoryCode,jdbcType=VARCHAR}, #{item.subject,jdbcType=VARCHAR}, 
+        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
+        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}, #{item.templateBody,jdbcType=LONGVARCHAR}
+        )
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="mail_template_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into mail_templates (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -362,9 +356,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'mail_template_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'template_code'.toString() == column.value">
           #{item.templateCode,jdbcType=VARCHAR}
         </if>
@@ -396,7 +387,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate">
+  <insert id="upsertSelective" keyColumn="mail_template_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate" useGeneratedKeys="true">
     insert into mail_templates
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -497,46 +488,96 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate">
+  <insert id="upsert" keyColumn="mail_template_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate" useGeneratedKeys="true">
     insert into mail_templates
-    (mail_template_id, template_code, category_code, subject, created_by, created_at, 
-      updated_by, updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        mail_template_id,
+      </if>
+      template_code,
+      category_code,
+      subject,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{templateCode,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{templateCode,jdbcType=VARCHAR},
+      #{categoryCode,jdbcType=VARCHAR},
+      #{subject,jdbcType=VARCHAR},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    mail_template_id = #{id,jdbcType=BIGINT}, 
-    template_code = #{templateCode,jdbcType=VARCHAR}, 
-    category_code = #{categoryCode,jdbcType=VARCHAR}, 
-    subject = #{subject,jdbcType=VARCHAR}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        mail_template_id = #{id,jdbcType=BIGINT},
+      </if>
+      template_code = #{templateCode,jdbcType=VARCHAR},
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
-  <insert id="upsertWithBLOBs" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate">
+  <insert id="upsertWithBLOBs" keyColumn="mail_template_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplate" useGeneratedKeys="true">
     insert into mail_templates
-    (mail_template_id, template_code, category_code, subject, created_by, created_at, 
-      updated_by, updated_at, version, template_body)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        mail_template_id,
+      </if>
+      template_code,
+      category_code,
+      subject,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+      template_body,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{templateCode,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
-      #{subject,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
-      #{templateBody,jdbcType=LONGVARCHAR})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{templateCode,jdbcType=VARCHAR},
+      #{categoryCode,jdbcType=VARCHAR},
+      #{subject,jdbcType=VARCHAR},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+      #{templateBody,jdbcType=LONGVARCHAR},
+    </trim>
     on duplicate key update 
-    mail_template_id = #{id,jdbcType=BIGINT}, 
-    template_code = #{templateCode,jdbcType=VARCHAR}, 
-    category_code = #{categoryCode,jdbcType=VARCHAR}, 
-    subject = #{subject,jdbcType=VARCHAR}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}, 
-    template_body = #{templateBody,jdbcType=LONGVARCHAR}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        mail_template_id = #{id,jdbcType=BIGINT},
+      </if>
+      template_code = #{templateCode,jdbcType=VARCHAR},
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+      template_body = #{templateBody,jdbcType=LONGVARCHAR},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.MailTemplateExample" resultMap="BaseResultMap">
     select mail_template_id, template_code, category_code, subject, created_by, created_at, 

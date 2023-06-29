@@ -108,24 +108,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code">
-    insert into codes (code_id, category_code, code_value, 
-      code_name, code_alias, display_order, 
-      is_invalid, created_by, created_at, 
-      updated_by, updated_at, version
-      )
-    values (#{id,jdbcType=BIGINT}, #{categoryCode,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR}, 
-      #{codeName,jdbcType=VARCHAR}, #{codeAlias,jdbcType=VARCHAR}, #{displayOrder,jdbcType=INTEGER}, 
-      #{isInvalid,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+  <insert id="insert" keyColumn="code_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code" useGeneratedKeys="true">
+    insert into codes (category_code, code_value, code_name, 
+      code_alias, display_order, is_invalid, 
+      created_by, created_at, updated_by, 
+      updated_at, version)
+    values (#{categoryCode,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR}, #{codeName,jdbcType=VARCHAR}, 
+      #{codeAlias,jdbcType=VARCHAR}, #{displayOrder,jdbcType=INTEGER}, #{isInvalid,jdbcType=BIT}, 
+      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code">
+  <insert id="insertSelective" keyColumn="code_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code" useGeneratedKeys="true">
     insert into codes
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        code_id,
-      </if>
       <if test="categoryCode != null">
         category_code,
       </if>
@@ -161,9 +156,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="categoryCode != null">
         #{categoryCode,jdbcType=VARCHAR},
       </if>
@@ -321,20 +313,19 @@
       version = #{version,jdbcType=BIGINT}
     where code_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="code_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into codes
-    (code_id, category_code, code_value, code_name, code_alias, display_order, is_invalid, 
-      created_by, created_at, updated_by, updated_at, version)
+    (category_code, code_value, code_name, code_alias, display_order, is_invalid, created_by, 
+      created_at, updated_by, updated_at, version)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.categoryCode,jdbcType=VARCHAR}, #{item.codeValue,jdbcType=VARCHAR}, 
-        #{item.codeName,jdbcType=VARCHAR}, #{item.codeAlias,jdbcType=VARCHAR}, #{item.displayOrder,jdbcType=INTEGER}, 
-        #{item.isInvalid,jdbcType=BIT}, #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, 
-        #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}
-        )
+      (#{item.categoryCode,jdbcType=VARCHAR}, #{item.codeValue,jdbcType=VARCHAR}, #{item.codeName,jdbcType=VARCHAR}, 
+        #{item.codeAlias,jdbcType=VARCHAR}, #{item.displayOrder,jdbcType=INTEGER}, #{item.isInvalid,jdbcType=BIT}, 
+        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
+        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="code_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into codes (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -344,9 +335,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'code_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'category_code'.toString() == column.value">
           #{item.categoryCode,jdbcType=VARCHAR}
         </if>
@@ -384,7 +372,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code">
+  <insert id="upsertSelective" keyColumn="code_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code" useGeneratedKeys="true">
     insert into codes
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -503,29 +491,58 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code">
+  <insert id="upsert" keyColumn="code_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.Code" useGeneratedKeys="true">
     insert into codes
-    (code_id, category_code, code_value, code_name, code_alias, display_order, is_invalid, 
-      created_by, created_at, updated_by, updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        code_id,
+      </if>
+      category_code,
+      code_value,
+      code_name,
+      code_alias,
+      display_order,
+      is_invalid,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{categoryCode,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR}, 
-      #{codeName,jdbcType=VARCHAR}, #{codeAlias,jdbcType=VARCHAR}, #{displayOrder,jdbcType=INTEGER}, 
-      #{isInvalid,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{categoryCode,jdbcType=VARCHAR},
+      #{codeValue,jdbcType=VARCHAR},
+      #{codeName,jdbcType=VARCHAR},
+      #{codeAlias,jdbcType=VARCHAR},
+      #{displayOrder,jdbcType=INTEGER},
+      #{isInvalid,jdbcType=BIT},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    code_id = #{id,jdbcType=BIGINT}, 
-    category_code = #{categoryCode,jdbcType=VARCHAR}, 
-    code_value = #{codeValue,jdbcType=VARCHAR}, 
-    code_name = #{codeName,jdbcType=VARCHAR}, 
-    code_alias = #{codeAlias,jdbcType=VARCHAR}, 
-    display_order = #{displayOrder,jdbcType=INTEGER}, 
-    is_invalid = #{isInvalid,jdbcType=BIT}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        code_id = #{id,jdbcType=BIGINT},
+      </if>
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      code_value = #{codeValue,jdbcType=VARCHAR},
+      code_name = #{codeName,jdbcType=VARCHAR},
+      code_alias = #{codeAlias,jdbcType=VARCHAR},
+      display_order = #{displayOrder,jdbcType=INTEGER},
+      is_invalid = #{isInvalid,jdbcType=BIT},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeExample" resultMap="BaseResultMap">
     select code_id, category_code, code_value, code_name, code_alias, display_order, 

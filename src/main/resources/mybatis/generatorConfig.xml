@@ -110,40 +110,52 @@
                enableCountByExample="false"
         />
         <table tableName="codes" domainObjectName="Code" selectByExampleQueryId="false">
+            <generatedKey column="code_id" sqlStatement="JDBC" />
             <columnOverride column="code_id" property="id" />
         </table>
         <table tableName="code_categories" domainObjectName="CodeCategory" selectByExampleQueryId="false">
+            <generatedKey column="code_category_id" sqlStatement="JDBC" />
             <columnOverride column="code_category_id" property="id" />
         </table>
         <table tableName="holidays" domainObjectName="Holiday" selectByExampleQueryId="false">
+            <generatedKey column="holiday_id" sqlStatement="JDBC" />
             <columnOverride column="holiday_id" property="id" />
         </table>
         <table tableName="mail_templates" domainObjectName="MailTemplate" selectByExampleQueryId="false">
+            <generatedKey column="mail_template_id" sqlStatement="JDBC" />
             <columnOverride column="mail_template_id" property="id" />
         </table>
         <table tableName="permissions" domainObjectName="Permission" selectByExampleQueryId="false">
+            <generatedKey column="permission_id" sqlStatement="JDBC" />
             <columnOverride column="permission_id" property="id" />
         </table>
         <table tableName="role_permissions" domainObjectName="RolePermission" selectByExampleQueryId="false">
+            <generatedKey column="role_permission_id" sqlStatement="JDBC" />
             <columnOverride column="role_permission_id" property="id" />
         </table>
         <table tableName="roles" domainObjectName="Role" selectByExampleQueryId="false">
+            <generatedKey column="role_id" sqlStatement="JDBC" />
             <columnOverride column="role_id" property="id" />
         </table>
         <table tableName="send_mail_queue" domainObjectName="SendMailQueue" selectByExampleQueryId="false">
+            <generatedKey column="send_mail_queue_id" sqlStatement="JDBC" />
             <columnOverride column="send_mail_queue_id" property="id" />
         </table>
         <table tableName="staff_roles" domainObjectName="StaffRole" selectByExampleQueryId="false">
+            <generatedKey column="staff_role_id" sqlStatement="JDBC" />
             <columnOverride column="staff_role_id" property="id" />
         </table>
         <table tableName="staffs" domainObjectName="Staff" selectByExampleQueryId="false">
+            <generatedKey column="staff_id" sqlStatement="JDBC" />
             <columnOverride column="staff_id" property="id" />
             <columnOverride column="full_name" isGeneratedAlways="true" />
         </table>
         <table tableName="user_roles" domainObjectName="UserRole" selectByExampleQueryId="false">
+            <generatedKey column="user_role_id" sqlStatement="JDBC" />
             <columnOverride column="user_role_id" property="id" />
         </table>
         <table tableName="users" domainObjectName="User" selectByExampleQueryId="false">
+            <generatedKey column="user_id" sqlStatement="JDBC" />
             <columnOverride column="user_id" property="id" />
         </table>
 

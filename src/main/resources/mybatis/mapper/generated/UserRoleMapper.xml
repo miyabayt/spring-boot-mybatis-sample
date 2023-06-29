@@ -104,20 +104,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole">
-    insert into user_roles (user_role_id, user_id, role_code, 
-      created_by, created_at, updated_by, 
-      updated_at, version)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+  <insert id="insert" keyColumn="user_role_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole" useGeneratedKeys="true">
+    insert into user_roles (user_id, role_code, created_by, 
+      created_at, updated_by, updated_at, 
+      version)
+    values (#{userId,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole">
+  <insert id="insertSelective" keyColumn="user_role_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole" useGeneratedKeys="true">
     insert into user_roles
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        user_role_id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -141,9 +138,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
@@ -257,18 +251,17 @@
       version = #{version,jdbcType=BIGINT}
     where user_role_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="user_role_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into user_roles
-    (user_role_id, user_id, role_code, created_by, created_at, updated_by, updated_at, 
-      version)
+    (user_id, role_code, created_by, created_at, updated_by, updated_at, version)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=VARCHAR}, #{item.roleCode,jdbcType=VARCHAR}, 
-        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
-        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
+      (#{item.userId,jdbcType=VARCHAR}, #{item.roleCode,jdbcType=VARCHAR}, #{item.createdBy,jdbcType=VARCHAR}, 
+        #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, 
+        #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="user_role_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into user_roles (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -278,9 +271,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'user_role_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'user_id'.toString() == column.value">
           #{item.userId,jdbcType=VARCHAR}
         </if>
@@ -306,7 +296,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole">
+  <insert id="upsertSelective" keyColumn="user_role_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole" useGeneratedKeys="true">
     insert into user_roles
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -389,23 +379,46 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole">
+  <insert id="upsert" keyColumn="user_role_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRole" useGeneratedKeys="true">
     insert into user_roles
-    (user_role_id, user_id, role_code, created_by, created_at, updated_by, updated_at, 
-      version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        user_role_id,
+      </if>
+      user_id,
+      role_code,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{userId,jdbcType=VARCHAR},
+      #{roleCode,jdbcType=VARCHAR},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    user_role_id = #{id,jdbcType=BIGINT}, 
-    user_id = #{userId,jdbcType=VARCHAR}, 
-    role_code = #{roleCode,jdbcType=VARCHAR}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        user_role_id = #{id,jdbcType=BIGINT},
+      </if>
+      user_id = #{userId,jdbcType=VARCHAR},
+      role_code = #{roleCode,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.UserRoleExample" resultMap="BaseResultMap">
     select user_role_id, user_id, role_code, created_by, created_at, updated_by, updated_at, 

@@ -104,20 +104,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory">
-    insert into code_categories (code_category_id, category_code, category_name, 
-      created_by, created_at, updated_by, 
-      updated_at, version)
-    values (#{id,jdbcType=BIGINT}, #{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+  <insert id="insert" keyColumn="code_category_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory" useGeneratedKeys="true">
+    insert into code_categories (category_code, category_name, created_by, 
+      created_at, updated_by, updated_at, 
+      version)
+    values (#{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory">
+  <insert id="insertSelective" keyColumn="code_category_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory" useGeneratedKeys="true">
     insert into code_categories
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        code_category_id,
-      </if>
       <if test="categoryCode != null">
         category_code,
       </if>
@@ -141,9 +138,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="categoryCode != null">
         #{categoryCode,jdbcType=VARCHAR},
       </if>
@@ -257,18 +251,18 @@
       version = #{version,jdbcType=BIGINT}
     where code_category_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="code_category_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into code_categories
-    (code_category_id, category_code, category_name, created_by, created_at, updated_by, 
-      updated_at, version)
+    (category_code, category_name, created_by, created_at, updated_by, updated_at, version
+      )
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.categoryCode,jdbcType=VARCHAR}, #{item.categoryName,jdbcType=VARCHAR}, 
-        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
-        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
+      (#{item.categoryCode,jdbcType=VARCHAR}, #{item.categoryName,jdbcType=VARCHAR}, #{item.createdBy,jdbcType=VARCHAR}, 
+        #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, 
+        #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="code_category_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into code_categories (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -278,9 +272,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'code_category_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'category_code'.toString() == column.value">
           #{item.categoryCode,jdbcType=VARCHAR}
         </if>
@@ -306,7 +297,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory">
+  <insert id="upsertSelective" keyColumn="code_category_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory" useGeneratedKeys="true">
     insert into code_categories
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -389,23 +380,46 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory">
+  <insert id="upsert" keyColumn="code_category_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategory" useGeneratedKeys="true">
     insert into code_categories
-    (code_category_id, category_code, category_name, created_by, created_at, updated_by, 
-      updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        code_category_id,
+      </if>
+      category_code,
+      category_name,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
-      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{categoryCode,jdbcType=VARCHAR},
+      #{categoryName,jdbcType=VARCHAR},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    code_category_id = #{id,jdbcType=BIGINT}, 
-    category_code = #{categoryCode,jdbcType=VARCHAR}, 
-    category_name = #{categoryName,jdbcType=VARCHAR}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        code_category_id = #{id,jdbcType=BIGINT},
+      </if>
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.CodeCategoryExample" resultMap="BaseResultMap">
     select code_category_id, category_code, category_name, created_by, created_at, updated_by, 

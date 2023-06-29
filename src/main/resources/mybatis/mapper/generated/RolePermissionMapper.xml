@@ -105,22 +105,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission">
-    insert into role_permissions (role_permission_id, role_code, permission_code, 
-      is_enabled, created_by, created_at, 
-      updated_by, updated_at, version
-      )
-    values (#{id,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, 
-      #{isEnabled,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+  <insert id="insert" keyColumn="role_permission_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission" useGeneratedKeys="true">
+    insert into role_permissions (role_code, permission_code, is_enabled, 
+      created_by, created_at, updated_by, 
+      updated_at, version)
+    values (#{roleCode,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, #{isEnabled,jdbcType=BIT}, 
+      #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission">
+  <insert id="insertSelective" keyColumn="role_permission_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission" useGeneratedKeys="true">
     insert into role_permissions
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        role_permission_id,
-      </if>
       <if test="roleCode != null">
         role_code,
       </if>
@@ -147,9 +142,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="roleCode != null">
         #{roleCode,jdbcType=VARCHAR},
       </if>
@@ -274,19 +266,18 @@
       version = #{version,jdbcType=BIGINT}
     where role_permission_id = #{id,jdbcType=BIGINT}
   </update>
-  <insert id="batchInsert" parameterType="map">
+  <insert id="batchInsert" keyColumn="role_permission_id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into role_permissions
-    (role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
-      updated_by, updated_at, version)
+    (role_code, permission_code, is_enabled, created_by, created_at, updated_by, updated_at, 
+      version)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.roleCode,jdbcType=VARCHAR}, #{item.permissionCode,jdbcType=VARCHAR}, 
-        #{item.isEnabled,jdbcType=BIT}, #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, 
-        #{item.updatedBy,jdbcType=VARCHAR}, #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT}
-        )
+      (#{item.roleCode,jdbcType=VARCHAR}, #{item.permissionCode,jdbcType=VARCHAR}, #{item.isEnabled,jdbcType=BIT}, 
+        #{item.createdBy,jdbcType=VARCHAR}, #{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedBy,jdbcType=VARCHAR}, 
+        #{item.updatedAt,jdbcType=TIMESTAMP}, #{item.version,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="batchInsertSelective" parameterType="map">
+  <insert id="batchInsertSelective" keyColumn="role_permission_id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
     insert into role_permissions (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
@@ -296,9 +287,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'role_permission_id'.toString() == column.value">
-          #{item.id,jdbcType=BIGINT}
-        </if>
         <if test="'role_code'.toString() == column.value">
           #{item.roleCode,jdbcType=VARCHAR}
         </if>
@@ -327,7 +315,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission">
+  <insert id="upsertSelective" keyColumn="role_permission_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission" useGeneratedKeys="true">
     insert into role_permissions
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -419,25 +407,49 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission">
+  <insert id="upsert" keyColumn="role_permission_id" keyProperty="id" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermission" useGeneratedKeys="true">
     insert into role_permissions
-    (role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
-      updated_by, updated_at, version)
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        role_permission_id,
+      </if>
+      role_code,
+      permission_code,
+      is_enabled,
+      created_by,
+      created_at,
+      updated_by,
+      updated_at,
+      version,
+    </trim>
     values
-    (#{id,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, 
-      #{isEnabled,jdbcType=BIT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}
-      )
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{roleCode,jdbcType=VARCHAR},
+      #{permissionCode,jdbcType=VARCHAR},
+      #{isEnabled,jdbcType=BIT},
+      #{createdBy,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedBy,jdbcType=VARCHAR},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{version,jdbcType=BIGINT},
+    </trim>
     on duplicate key update 
-    role_permission_id = #{id,jdbcType=BIGINT}, 
-    role_code = #{roleCode,jdbcType=VARCHAR}, 
-    permission_code = #{permissionCode,jdbcType=VARCHAR}, 
-    is_enabled = #{isEnabled,jdbcType=BIT}, 
-    created_by = #{createdBy,jdbcType=VARCHAR}, 
-    created_at = #{createdAt,jdbcType=TIMESTAMP}, 
-    updated_by = #{updatedBy,jdbcType=VARCHAR}, 
-    updated_at = #{updatedAt,jdbcType=TIMESTAMP}, 
-    version = #{version,jdbcType=BIGINT}
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        role_permission_id = #{id,jdbcType=BIGINT},
+      </if>
+      role_code = #{roleCode,jdbcType=VARCHAR},
+      permission_code = #{permissionCode,jdbcType=VARCHAR},
+      is_enabled = #{isEnabled,jdbcType=BIT},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+    </trim>
   </insert>
   <select id="selectWithCursorByExample" parameterType="com.bigtreetc.sample.mybatis.domain.model.generated.RolePermissionExample" resultMap="BaseResultMap">
     select role_permission_id, role_code, permission_code, is_enabled, created_by, created_at, 
