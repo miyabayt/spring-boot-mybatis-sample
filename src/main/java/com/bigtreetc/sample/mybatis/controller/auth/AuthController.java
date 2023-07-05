@@ -5,6 +5,7 @@ import com.bigtreetc.sample.mybatis.base.web.controller.api.response.SimpleApiRe
 import com.bigtreetc.sample.mybatis.base.web.security.jwt.JwtRepository;
 import com.bigtreetc.sample.mybatis.base.web.security.jwt.RefreshTokenRequest;
 import com.bigtreetc.sample.mybatis.base.web.util.WebSecurityUtils;
+import com.bigtreetc.sample.mybatis.domain.repository.StaffRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ public class AuthController {
 
   @NonNull final ModelMapper modelMapper;
 
+  @NonNull final StaffRepository staffRepository;
+
   /**
    * ログインユーザを取得します。
    *
@@ -38,9 +41,7 @@ public class AuthController {
         WebSecurityUtils.getPrincipal()
             .orElseThrow(() -> new AuthenticationServiceException("認証エラー"));
 
-    // val staff = staffsMapper.selectByPrimaryKey(Long.valueOf(staffId));
-    Object staff = null;
-
+    val staff = staffRepository.findById(Long.valueOf(staffId));
     val response = new SimpleApiResponseImpl();
     response.success(staff);
 
