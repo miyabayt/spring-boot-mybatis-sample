@@ -93,15 +93,9 @@ public class MailTemplateService extends BaseTransactionalService {
   public MailTemplate update(final MailTemplate inputMailTemplate) {
     Assert.notNull(inputMailTemplate, "inputMailTemplate must not be null");
     val mailTemplateId = inputMailTemplate.getId();
-    val version = inputMailTemplate.getVersion();
-
-    MailTemplateExample example = new MailTemplateExample();
-    example.createCriteria().andIdEqualTo(mailTemplateId).andVersionEqualTo(version);
-
     val mailTemplate = mailTemplateRepository.findById(mailTemplateId);
     modelMapper.map(inputMailTemplate, mailTemplate);
     mailTemplateRepository.update(mailTemplate);
-
     return mailTemplate;
   }
 

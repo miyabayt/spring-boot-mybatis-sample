@@ -93,15 +93,9 @@ public class CodeCategoryService extends BaseTransactionalService {
   public CodeCategory update(final CodeCategory inputCodeCategory) {
     Assert.notNull(inputCodeCategory, "inputCodeCategory must not be null");
     val codeCategoryId = inputCodeCategory.getId();
-    val version = inputCodeCategory.getVersion();
-
-    CodeCategoryExample example = new CodeCategoryExample();
-    example.createCriteria().andIdEqualTo(codeCategoryId).andVersionEqualTo(version);
-
     val codeCategory = codeCategoryRepository.findById(codeCategoryId);
     modelMapper.map(inputCodeCategory, codeCategory);
     codeCategoryRepository.update(codeCategory);
-
     return codeCategory;
   }
 

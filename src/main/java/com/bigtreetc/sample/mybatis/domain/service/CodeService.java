@@ -93,15 +93,9 @@ public class CodeService extends BaseTransactionalService {
   public Code update(final Code inputCode) {
     Assert.notNull(inputCode, "inputCode must not be null");
     val codeId = inputCode.getId();
-    val version = inputCode.getVersion();
-
-    CodeExample example = new CodeExample();
-    example.createCriteria().andIdEqualTo(codeId).andVersionEqualTo(version);
-
     val code = codeRepository.findById(codeId);
     modelMapper.map(inputCode, code);
     codeRepository.update(code);
-
     return code;
   }
 

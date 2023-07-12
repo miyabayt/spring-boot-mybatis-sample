@@ -93,15 +93,9 @@ public class RoleService extends BaseTransactionalService {
   public Role update(final Role inputRole) {
     Assert.notNull(inputRole, "inputRole must not be null");
     val roleId = inputRole.getId();
-    val version = inputRole.getVersion();
-
-    RoleExample example = new RoleExample();
-    example.createCriteria().andIdEqualTo(roleId).andVersionEqualTo(version);
-
     val role = roleRepository.findById(roleId);
     modelMapper.map(inputRole, role);
     roleRepository.update(role);
-
     return role;
   }
 

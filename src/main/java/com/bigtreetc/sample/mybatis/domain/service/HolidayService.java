@@ -93,15 +93,9 @@ public class HolidayService extends BaseTransactionalService {
   public Holiday update(final Holiday inputHoliday) {
     Assert.notNull(inputHoliday, "inputHoliday must not be null");
     val holidayId = inputHoliday.getId();
-    val version = inputHoliday.getVersion();
-
-    HolidayExample example = new HolidayExample();
-    example.createCriteria().andIdEqualTo(holidayId).andVersionEqualTo(version);
-
     val holiday = holidayRepository.findById(holidayId);
     modelMapper.map(inputHoliday, holiday);
     holidayRepository.update(holiday);
-
     return holiday;
   }
 

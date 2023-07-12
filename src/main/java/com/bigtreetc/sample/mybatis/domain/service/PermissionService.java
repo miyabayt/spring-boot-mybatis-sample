@@ -93,15 +93,9 @@ public class PermissionService extends BaseTransactionalService {
   public Permission update(final Permission inputPermission) {
     Assert.notNull(inputPermission, "inputPermission must not be null");
     val permissionId = inputPermission.getId();
-    val version = inputPermission.getVersion();
-
-    PermissionExample example = new PermissionExample();
-    example.createCriteria().andIdEqualTo(permissionId).andVersionEqualTo(version);
-
     val permission = permissionRepository.findById(permissionId);
     modelMapper.map(inputPermission, permission);
     permissionRepository.update(permission);
-
     return permission;
   }
 

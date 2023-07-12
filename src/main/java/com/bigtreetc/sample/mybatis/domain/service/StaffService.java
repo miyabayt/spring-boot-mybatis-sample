@@ -93,15 +93,9 @@ public class StaffService extends BaseTransactionalService {
   public Staff update(final Staff inputStaff) {
     Assert.notNull(inputStaff, "inputStaff must not be null");
     val staffId = inputStaff.getId();
-    val version = inputStaff.getVersion();
-
-    StaffExample example = new StaffExample();
-    example.createCriteria().andIdEqualTo(staffId).andVersionEqualTo(version);
-
     val staff = staffRepository.findById(staffId);
     modelMapper.map(inputStaff, staff);
     staffRepository.update(staff);
-
     return staff;
   }
 
